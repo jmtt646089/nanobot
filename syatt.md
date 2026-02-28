@@ -8,18 +8,63 @@
 ## 4. use python to read HF Secrets config for AI Provider and Channel
 ```python
 import os
+import json
 
-ai_provider_api_key = os.environ.get("AI_PROVIDER_API_KEY", "PLEASE SET AI PROVIDER API KEY")
+or_key = os.environ.get("OR_KEY", "sk-or-v1-...for-example")
+tg_token = os.environ.get("TG_TOKEN", "for-example")
 
-if ai_provider_api_key is not None:
-    print(f"AI_PROVIDER_API_KEY IS CONFIGURED.}")
+if or_key is not None:
+    print(f"OR_KEY IS CONFIGURED:{or_key}")
 else:
-    print("PLEASE SET AI_PROVIDER_API_KEY.")
+    print("PLEASE SET OR_KEY .")
+    
+    
+if tg_token is not None:
+    print(f"TG_TOKEN IS CONFIGURED:{tg_token}")
+else:
+    print("PLEASE SET TG_TOKEN .")
 
-hf_token = os.environ.get("HF_TOKEN")
-if hf_token:
-    from huggingface_hub import HfApi
-    hf_api = HfApi(token=hf_token)
+data = {
+
+  "providers": {
+    "openrouter": {
+      "apiKey": "{or_key}"
+    }
+  }
+
+
+  "agents": {
+    "defaults": {
+      "model": "upstage/solar-pro-3:free",
+      "provider": "openrouter"
+    }
+  }
+
+
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "token": "{tg_token}",
+      "allowFrom": ["jmnanobot"]
+    }
+  }
+  
+}
+
+
+config_path = "/root/.nanobot"
+config_file_name = "config.json"
+config_file = os.path.join(config_path, config_file_name) 
+
+os.makedirs(config_path, exist_ok=True)
+
+if not os.path.exists(config_file):
+    with open(config_file, "w") as json_file:
+        #file.write("Hello, World from os module!")
+        json.dump(data, json_file, indent=4)
+else:
+    print(f"File '{config_file}' already exists. Not overwriting.")
+
 
 ```
 
