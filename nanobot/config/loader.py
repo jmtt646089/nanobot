@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+import os # SYATT --- for running on Hugging Face Space --- for use of HF Secrets
 
 from nanobot.config.schema import Config
 
@@ -27,6 +28,69 @@ def load_config(config_path: Path | None = None) -> Config:
     Returns:
         Loaded configuration object.
     """
+
+
+    # SYATT --- for running on Hugging Face Space --- Begin ---
+    or_key = os.environ.get("OR_KEY", "sk-or-v1-...for-example")
+    tg_token = os.environ.get("TG_TOKEN", "for-example")
+    
+    if or_key is not None:
+        print(f"OR_KEY IS CONFIGURED:{or_key}")
+    else:
+        print("PLEASE SET OR_KEY .")
+        
+        
+    if tg_token is not None:
+        print(f"TG_TOKEN IS CONFIGURED:{tg_token}")
+    else:
+        print("PLEASE SET TG_TOKEN .")
+    
+    data = {
+    
+      "providers": {
+        "openrouter": {
+          "apiKey": "{or_key}"
+        }
+      }
+    
+    
+      "agents": {
+        "defaults": {
+          "model": "upstage/solar-pro-3:free",
+          "provider": "openrouter"
+        }
+      }
+    
+    
+      "channels": {
+        "telegram": {
+          "enabled": true,
+          "token": "{tg_token}",
+          "allowFrom": ["jmnanobot"]
+        }
+      }
+      
+    }
+    
+    
+    config_path = "/root/.nanobot"
+    config_file_name = "config.json"
+    config_file = os.path.join(config_path, config_file_name) 
+    
+    os.makedirs(config_path, exist_ok=True)
+    
+    if not os.path.exists(config_file):
+        with open(config_file, "w") as json_file:
+            #file.write("Hello, World from os module!")
+            json.dump(data, json_file, indent=4)
+    else:
+        print(f"File '{config_file}' already exists. Not overwriting.")
+
+    # SYATT --- for running on Hugging Face Space --- end ---
+    
+
+    
+    
     path = config_path or get_config_path()
 
     if path.exists():
