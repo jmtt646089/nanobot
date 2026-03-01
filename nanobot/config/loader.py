@@ -30,27 +30,27 @@ def load_config(config_path: Path | None = None) -> Config:
     """
 
 
-    # SYATT --- for running on Hugging Face Space --- Begin ---
-    or_key = os.environ.get("OR_KEY", "sk-or-v1-...for-example")
-    tg_token = os.environ.get("TG_TOKEN", "for-example")
+    # SYATT --- for running on Hugging Face Space --- Begin --- var starting with jm_ to avoid conflicts with original code
+    jm_or_key = os.environ.get("OR_KEY", "sk-or-v1-...for-example")
+    jm_tg_token = os.environ.get("TG_TOKEN", "for-example")
     
-    if or_key is not None:
-        #print(f"OR_KEY IS CONFIGURED:{or_key}")
+    if jm_or_key is not None:
+        #print(f"OR_KEY IS CONFIGURED:{jm_or_key}")
         print(f"OR_KEY IS CONFIGURED.")
     else:
         print("PLEASE SET OR_KEY .")
         
         
-    if tg_token is not None:
+    if jm_tg_token is not None:
         print(f"TG_TOKEN IS CONFIGURED.")
     else:
         print("PLEASE SET TG_TOKEN .")
     
-    data = {
+    jm_data = {
     
       "providers": {
         "openrouter": {
-          "apiKey": "{or_key}"
+          "apiKey": "{jm_or_key}"
         }
       },
     
@@ -66,7 +66,7 @@ def load_config(config_path: Path | None = None) -> Config:
       "channels": {
         "telegram": {
           "enabled": True,
-          "token": "{tg_token}",
+          "token": "{jm_tg_token}",
           "allowFrom": ["jmnanobot"]
         }
       },
@@ -74,18 +74,18 @@ def load_config(config_path: Path | None = None) -> Config:
     }
     
     
-    config_path = "/root/.nanobot"
-    config_file_name = "config.json"
-    config_file = os.path.join(config_path, config_file_name) 
+    jm_config_path = "/root/.nanobot"
+    jm_config_file_name = "config.json"
+    jm_config_file = os.path.join(jm_config_path, jm_config_file_name) 
     
-    os.makedirs(config_path, exist_ok=True)
+    os.makedirs(jm_config_path, exist_ok=True)
     
-    if not os.path.exists(config_file):
-        with open(config_file, "w") as json_file:
+    if not os.path.exists(jm_config_file):
+        with open(jm_config_file, "w") as jm_json_file:
             #file.write("Hello, World from os module!")
-            json.dump(data, json_file, indent=4)
+            json.dump(data, jm_json_file, indent=4)
     else:
-        print(f"File '{config_file}' already exists. Not overwriting.")
+        print(f"File '{jm_config_file}' already exists. Not overwriting.")
 
     # SYATT --- for running on Hugging Face Space --- end ---
     
