@@ -11,6 +11,8 @@ def get_config_path() -> Path:
     """Get the default configuration file path."""
     return Path.home() / ".nanobot" / "config.json"
 
+    
+
 
 def get_data_dir() -> Path:
     """Get the nanobot data directory."""
@@ -73,8 +75,8 @@ def load_config(config_path: Path | None = None) -> Config:
       
     }
     
-    
-    jm_config_path = "/root/.nanobot"
+    # also can use this path Path.home() / ".nanobot" /"config.json" this is an object, not a string, need use pathlib
+    jm_config_path = "/root/.nanobot" 
     jm_config_file_name = "config.json"
     jm_config_file = os.path.join(jm_config_path, jm_config_file_name) 
     
