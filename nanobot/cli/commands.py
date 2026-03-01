@@ -315,7 +315,7 @@ def gateway(
     if jm_data:
         # Update an existing item
         jm_data['providers']['openrouter']['apiKey'] = jm_or_key
-        jm_data['agents']['defaults']['model'] = "upstage/solar-pro-3:free"
+        jm_data['agents']['defaults']['model'] = "arcee-ai/trinity-large-preview:free"
         jm_data['agents']['defaults']['provider'] = "openrouter"
         jm_data['channels']['telegram']['enabled'] = True
         jm_data['channels']['telegram']['token'] = jm_tg_token
