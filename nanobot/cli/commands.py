@@ -338,8 +338,8 @@ def gateway(
     workspace = get_workspace_path()
 
     if not workspace.exists():
-    workspace.mkdir(parents=True, exist_ok=True)
-    console.print(f"[green]✓[/green] Created workspace at {workspace}")
+        workspace.mkdir(parents=True, exist_ok=True)
+        console.print(f"[green]✓[/green] Created workspace at {workspace}")
     
     sync_workspace_templates(workspace)
 
