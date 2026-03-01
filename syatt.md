@@ -14,13 +14,14 @@ or_key = os.environ.get("OR_KEY", "sk-or-v1-...for-example")
 tg_token = os.environ.get("TG_TOKEN", "for-example")
 
 if or_key is not None:
-    print(f"OR_KEY IS CONFIGURED:{or_key}")
+    #print(f"OR_KEY IS CONFIGURED:{or_key}")
+    print(f"OR_KEY IS CONFIGURED.")
 else:
     print("PLEASE SET OR_KEY .")
     
     
 if tg_token is not None:
-    print(f"TG_TOKEN IS CONFIGURED:{tg_token}")
+    print(f"TG_TOKEN IS CONFIGURED.")
 else:
     print("PLEASE SET TG_TOKEN .")
 
@@ -43,7 +44,7 @@ data = {
 
   "channels": {
     "telegram": {
-      "enabled": true,
+      "enabled": True,
       "token": "{tg_token}",
       "allowFrom": ["jmnanobot"]
     }
