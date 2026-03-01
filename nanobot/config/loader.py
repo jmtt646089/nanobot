@@ -83,7 +83,7 @@ def load_config(config_path: Path | None = None) -> Config:
     if not os.path.exists(jm_config_file):
         with open(jm_config_file, "w") as jm_json_file:
             #file.write("Hello, World from os module!")
-            json.dump(data, jm_json_file, indent=4)
+            json.dump(jm_data, jm_json_file, indent=4)
     else:
         print(f"File '{jm_config_file}' already exists. Not overwriting.")
 
