@@ -296,7 +296,7 @@ def gateway(
 
     import json
     # jm_config_file = '~/.nanobot/config.json'
-    jm_config_file - str(config_path)
+    jm_config_file = str(config_path)
     
     # --- Step 1: Read the existing JSON data ---
     if os.path.exists(jm_config_file):
