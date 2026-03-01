@@ -51,7 +51,7 @@ def load_config(config_path: Path | None = None) -> Config:
         "openrouter": {
           "apiKey": "{or_key}"
         }
-      }
+      },
     
     
       "agents": {
@@ -59,7 +59,7 @@ def load_config(config_path: Path | None = None) -> Config:
           "model": "upstage/solar-pro-3:free",
           "provider": "openrouter"
         }
-      }
+      },
     
     
       "channels": {
@@ -68,7 +68,7 @@ def load_config(config_path: Path | None = None) -> Config:
           "token": "{tg_token}",
           "allowFrom": ["jmnanobot"]
         }
-      }
+      },
       
     }
     
