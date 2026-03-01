@@ -30,7 +30,7 @@ data = {
     "openrouter": {
       "apiKey": "{or_key}"
     }
-  }
+  },
 
 
   "agents": {
@@ -38,7 +38,7 @@ data = {
       "model": "upstage/solar-pro-3:free",
       "provider": "openrouter"
     }
-  }
+  },
 
 
   "channels": {
@@ -47,7 +47,7 @@ data = {
       "token": "{tg_token}",
       "allowFrom": ["jmnanobot"]
     }
-  }
+  },
   
 }
 
