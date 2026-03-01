@@ -319,7 +319,7 @@ def gateway(
         jm_data['agents']['defaults']['provider'] = "openrouter"
         jm_data['channels']['telegram']['enabled'] = True
         jm_data['channels']['telegram']['token'] = jm_tg_token
-        jm_data['channels']['telegram']['allowFrom'] = ["hfjmttnanobot"]
+        jm_data['channels']['telegram']['allowFrom'] = ["hfjmttnanobot","7657932801"]
         # Add a new item
         # data['updated_status'] = 'Active'
         print(f"Modified data in Python: {jm_data}")
