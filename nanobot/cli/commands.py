@@ -248,7 +248,7 @@ def gateway(
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose output"),
 ):
     """Start the nanobot gateway."""
-    from nanobot.config.loader import load_config, get_data_dir
+    from nanobot.config.loader import load_config, get_data_dir, get_config_path, save_config
     from nanobot.bus.queue import MessageBus
     from nanobot.agent.loop import AgentLoop
     from nanobot.channels.manager import ChannelManager
@@ -256,12 +256,94 @@ def gateway(
     from nanobot.cron.service import CronService
     from nanobot.cron.types import CronJob
     from nanobot.heartbeat.service import HeartbeatService
+
+    from nanobot.config.schema import Config
+    from nanobot.utils.helpers import get_workspace_path
+    
+    config_path = get_config_path()
     
     if verbose:
         import logging
         logging.basicConfig(level=logging.DEBUG)
     
     console.print(f"{__logo__} Starting nanobot gateway on port {port}...")
+
+    # SYATT --- for running on Hugging Face Space --- Begin --- var starting with jm_ to avoid conflicts with original code
+
+    # generate the config.json file without run nanobot onboard    在一个命令里完成onboard和启动gateway任务，不问用户，不做选择，直接写配置文件，然后再读取环境变量，更新配置文件
+    save_config(Config())
+    console.print(f"[green]✓[/green] Created config at {config_path}")
+    
+    import os
+    
+    jm_or_key = os.environ.get("OR_KEY", "sk-or-v1-...for-example")
+    jm_tg_token = os.environ.get("TG_TOKEN", "for-example")
+    
+    if jm_or_key is not None:
+        print(f"OR_KEY IS CONFIGURED:{jm_or_key}")
+        print(f"OR_KEY IS CONFIGURED.")
+    else:
+        print("PLEASE SET OR_KEY .")
+        
+        
+    if jm_tg_token is not None:
+        print(f"TG_TOKEN IS CONFIGURED.")
+        print(f"TG_TOKEN IS CONFIGURED:{jm_tg_token}")
+    else:
+        print("PLEASE SET TG_TOKEN .")
+
+
+
+    import json
+    jm_config_file = '~/.nanobot/config.json'
+    
+    # --- Step 1: Read the existing JSON data ---
+    if os.path.exists(jm_config_file):
+        try:
+            with open(jm_config_file, 'r') as jm_file:
+                jm_data = json.load(jm_file)
+            print(f"Original data: {jm_data}")
+        except (FileNotFoundError, json.JSONDecodeError) as jm_e:
+            print(f"Error reading file: {jm_e}")
+            jm_data = {} # Initialize with empty dict in case of an error
+    else:
+        print(f"File not found: {jm_config_file}. Starting with an empty dictionary.")
+        jm_data = {}
+    
+    # --- Step 2: Modify the Python object in memory ---
+    if jm_data:
+        # Update an existing item
+        jm_data['providers']['openrouter']['apiKey'] = "{jm_or_key}"
+        jm_data['agents']['defaults']['model'] = "upstage/solar-pro-3:free"
+        jm_data['agents']['defaults']['provider'] = "openrouter"
+        jm_data['channels']['telegram']['enabled'] = True
+        jm_data['channels']['telegram']['token'] = "{jm_tg_token}"
+        jm_data['channels']['telegram']['allowFrom'] = ["hfjmttnanobot"]
+        # Add a new item
+        # data['updated_status'] = 'Active'
+        print(f"Modified data in Python: {jm_data}")
+    
+    # --- Step 3: Write the modified object back to the file ---
+    try:
+        with open(jm_config_file, 'w') as jm_file:
+            # Use indent=4 for human-readable formatting
+            json.dump(jm_data, jm_file, indent=4)
+        print(f"Successfully updated {jm_config_file}")
+    except Exception as jm_e:
+        print(f"Error writing file: {jm_e}")
+    
+
+    
+    # Create workspace
+    workspace = get_workspace_path()
+
+    if not workspace.exists():
+    workspace.mkdir(parents=True, exist_ok=True)
+    console.print(f"[green]✓[/green] Created workspace at {workspace}")
+    
+    sync_workspace_templates(workspace)
+
+    # SYATT --- for running on Hugging Face Space --- end ---
     
     config = load_config()
     sync_workspace_templates(config.workspace_path)
