@@ -295,7 +295,8 @@ def gateway(
 
 
     import json
-    jm_config_file = '~/.nanobot/config.json'
+    # jm_config_file = '~/.nanobot/config.json'
+    jm_config_file - str(config_path)
     
     # --- Step 1: Read the existing JSON data ---
     if os.path.exists(jm_config_file):
@@ -313,11 +314,11 @@ def gateway(
     # --- Step 2: Modify the Python object in memory ---
     if jm_data:
         # Update an existing item
-        jm_data['providers']['openrouter']['apiKey'] = "{jm_or_key}"
+        jm_data['providers']['openrouter']['apiKey'] = {jm_or_key}
         jm_data['agents']['defaults']['model'] = "upstage/solar-pro-3:free"
         jm_data['agents']['defaults']['provider'] = "openrouter"
         jm_data['channels']['telegram']['enabled'] = True
-        jm_data['channels']['telegram']['token'] = "{jm_tg_token}"
+        jm_data['channels']['telegram']['token'] = {jm_tg_token}
         jm_data['channels']['telegram']['allowFrom'] = ["hfjmttnanobot"]
         # Add a new item
         # data['updated_status'] = 'Active'
