@@ -89,6 +89,10 @@ def load_config(config_path: Path | None = None) -> Config:
     else:
         print(f"File '{jm_config_file}' already exists. Not overwriting.")
 
+    jm_workspace = Path.home() / ".nanobot" /"workspace" # or Path("/root/.nanobot/workspace")
+    jm_workspace.mkdir(parents=True, exist_ok=True)
+
+
     # SYATT --- for running on Hugging Face Space --- end ---
     
 
