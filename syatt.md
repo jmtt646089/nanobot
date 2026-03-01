@@ -54,18 +54,20 @@ import json
     }
     
     
-    jm_config_path = "/root/.nanobot"
-    jm_config_file_name = "config.json"
-    jm_config_file = os.path.join(jm_config_path, jm_config_file_name) 
+    # Path.home() / ".nanobot" /"config.json" also ok
+    jm_config_file = Path("~/.nanobot/config.json")
+
+    # 1. Ensure the parent directory exists
+    jm_config_file.parent.mkdir(parents=True, exist_ok=True)
     
-    os.makedirs(jm_config_path, exist_ok=True)
-    
-    if not os.path.exists(jm_config_file):
-        with open(jm_config_file, "w") as jm_json_file:
-            #file.write("Hello, World from os module!")
-            json.dump(jm_data, jm_json_file, indent=4)
-    else:
-        print(f"File '{jm_config_file}' already exists. Not overwriting.")
+    # 2. Write the JSON object to the file
+    # Using the 'with open' context manager for robust file handling
+    try:
+        with open(jm_config_file, 'w', encoding='utf-8') as jm_f:
+            json.dump(jm_data, jm_f, ensure_ascii=False, indent=4)
+        print(f"Successfully wrote data to {jm_config_file}")
+    except IOError as e:
+        print(f"Error writing to file: {e}")
 
     jm_workspace = Path.home() / ".nanobot" /"workspace" 
     # or Path("/root/.nanobot/workspace")
